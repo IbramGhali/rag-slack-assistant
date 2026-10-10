@@ -1,0 +1,64 @@
+[project]
+name = "rag-slack-assistant"
+version = "0.1.0"
+description = "Slack assistant that answers staff questions from policy documents with citations, refuses when the evidence is weak, and proves it with a retrieval and groundedness evaluation."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "rich>=13.7",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+embeddings = ["fastembed>=0.4"]   # bge-small embeddings and a cross-encoder re-ranker (ONNX, no torch)
+slack = ["slack-bolt>=1.20"]
+anthropic = ["anthropic>=1.0"]
+postgres = ["psycopg[binary]>=3.2", "pgvector>=0.3"]
+
+[project.scripts]
+rag = "rag_assistant.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "types-PyYAML>=6.0",
+    "slack-bolt>=1.20",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rag_assistant"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["anthropic.*", "fastembed.*", "slack_bolt.*", "slack_sdk.*", "pgvector.*", "psycopg.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: calls a real LLM provider (set RAG_LIVE_TESTS=1)",
+    "semantic: needs the embeddings extra and a model download",
+    "postgres: needs RAG_TEST_DATABASE_URL pointing at Postgres with pgvector",
+]
+addopts = "-m 'not live and not semantic and not postgres'"

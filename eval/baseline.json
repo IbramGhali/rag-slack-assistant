@@ -1,0 +1,14 @@
+{
+  "hash": {
+    "hybrid_section_mrr": 0.932,
+    "answer_accuracy": 0.68,
+    "refusal_accuracy_unanswerable": 0.8,
+    "citation_validity": 1.0
+  },
+  "bge-small+rerank": {
+    "hybrid_section_mrr": 0.96,
+    "answer_accuracy": 0.92,
+    "refusal_accuracy_unanswerable": 1.0,
+    "citation_validity": 1.0
+  }
+}

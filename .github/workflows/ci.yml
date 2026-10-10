@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - name: Lint and type check
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run mypy
+      - name: Unit, contract and evaluation tests (offline)
+        run: uv run pytest
+      - name: Demo and evaluation gate (offline embedder)
+        run: |
+          uv run rag demo
+          uv run rag eval --gate
+
+  semantic:
+    name: Semantic retrieval (bge-small + re-ranker) and pgvector
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: rag
+          POSTGRES_PASSWORD: rag
+          POSTGRES_DB: rag
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rag" --health-interval 2s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --extra embeddings --extra postgres
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/fastembed
+          key: fastembed-bge-small-msmarco-v1
+      - name: Semantic evaluation gate
+        env:
+          RAG_EMBEDDER: bge-small
+          RAG_RERANKER: cross-encoder
+          FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed
+        run: uv run rag eval --rerank --sweep --gate
+      - name: Semantic and pgvector tests
+        env:
+          RAG_TEST_DATABASE_URL: postgresql://rag:rag@localhost:5432/rag
+          FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed
+        run: uv run pytest -m "semantic or postgres"
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install gitleaks
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz \
+            | tar -xz -C /usr/local/bin gitleaks
+      - name: Scan full history
+        run: gitleaks git . --redact --no-banner --exit-code 1

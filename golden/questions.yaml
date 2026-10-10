@@ -1,0 +1,70 @@
+# Golden evaluation set: 60 questions written by hand against the synthetic corpus.
+#   direct       (20) wording close to the policy text
+#   paraphrase   (20) same facts, different wording
+#   unanswerable (10) not covered by any policy: the assistant must refuse
+#   superseded   (10) the fact changed; the answer must come from the current policy
+# answer_contains: every string must appear in the answer (case-insensitive).
+
+- {id: d01, type: direct, question: "What is the refund window?", doc: refunds, section: Refund window, answer_contains: ["14 days"]}
+- {id: d02, type: direct, question: "How many instalments can a payment plan have?", doc: payment-plans, section: Instalment options, answer_contains: ["18"]}
+- {id: d03, type: direct, question: "How much is the late fee?", doc: late-fees, section: Late fee amount, answer_contains: ["$25"]}
+- {id: d04, type: direct, question: "How much does a merit scholarship reduce the course fee?", doc: scholarships, section: Merit scholarship, answer_contains: ["20 percent"]}
+- {id: d05, type: direct, question: "How long can a student defer a course?", doc: course-deferral, section: Deferral period, answer_contains: ["12 months"]}
+- {id: d06, type: direct, question: "When is the census date?", doc: withdrawal, section: Census date, answer_contains: ["28 days"]}
+- {id: d07, type: direct, question: "What is the maximum credit transfer?", doc: credit-transfer, section: Maximum credit, answer_contains: ["50 percent"]}
+- {id: d08, type: direct, question: "How many days of sick leave do staff receive?", doc: sick-leave, section: Entitlement, answer_contains: ["10 days"]}
+- {id: d09, type: direct, question: "How many weeks of paid parental leave do primary carers receive?", doc: parental-leave, section: Primary carer, answer_contains: ["16 weeks"]}
+- {id: d10, type: direct, question: "How many days per week can staff work remotely?", doc: remote-work, section: Arrangement, answer_contains: ["3 days"]}
+- {id: d11, type: direct, question: "How long must passwords be?", doc: passwords, section: Password length, answer_contains: ["14 characters"]}
+- {id: d12, type: direct, question: "When do screens lock automatically?", doc: device-security, section: Screen lock, answer_contains: ["5 minutes"]}
+- {id: d13, type: direct, question: "How is student personal information classified?", doc: data-classification, section: Student data, answer_contains: ["confidential"]}
+- {id: d14, type: direct, question: "How do I report a security incident?", doc: incident-reporting, section: How to report, answer_contains: ["4400"]}
+- {id: d15, type: direct, question: "How long does it take to review a software request?", doc: software-requests, section: How to request, answer_contains: ["5 business days"]}
+- {id: d16, type: direct, question: "How long do students have to lodge a complaint?", doc: complaints, section: Lodging a complaint, answer_contains: ["30 days"]}
+- {id: d17, type: direct, question: "How long is a short assessment extension?", doc: assessment-extensions, section: Short extensions, answer_contains: ["7 days"]}
+- {id: d18, type: direct, question: "How long are sales call recordings kept?", doc: call-recording, section: Retention, answer_contains: ["2 years"]}
+- {id: d19, type: direct, question: "How long are student academic records kept?", doc: records-retention, section: Student records, answer_contains: ["7 years"]}
+- {id: d20, type: direct, question: "When must flights be economy class?", doc: travel, section: Flights, answer_contains: ["6 hours"]}
+
+- {id: p01, type: paraphrase, question: "If I stop paying my instalments, when do I lose access to the course?", doc: payment-plans, section: Missed payments, answer_contains: ["21 days"]}
+- {id: p02, type: paraphrase, question: "Is there a cap on how many times I can be charged a late penalty?", doc: late-fees, section: Limits, answer_contains: ["3"]}
+- {id: p03, type: paraphrase, question: "Can I stack a scholarship with a discount from the sales team?", doc: scholarships, section: Limits, answer_contains: ["cannot"]}
+- {id: p04, type: paraphrase, question: "What grade shows on my transcript if I drop a unit?", doc: withdrawal, section: Academic record, answer_contains: ["grade of W"]}
+- {id: p05, type: paraphrase, question: "My previous study was 8 years ago, will it count towards credit?", doc: credit-transfer, section: Evidence, answer_contains: ["case by case"]}
+- {id: p06, type: paraphrase, question: "I can't come in person to prove who I am, what are my options?", doc: identity-verification, section: Remote verification, answer_contains: ["video"]}
+- {id: p07, type: paraphrase, question: "Do I need a doctor's note if I'm off sick for three days?", doc: sick-leave, section: Evidence, answer_contains: ["2 consecutive days"]}
+- {id: p08, type: paraphrase, question: "How long do I need to have worked here before I can take parental leave?", doc: parental-leave, section: Eligibility, answer_contains: ["12 months"]}
+- {id: p09, type: paraphrase, question: "Can I use the cafe wifi when working on confidential files from home?", doc: remote-work, section: Security, answer_contains: ["not allowed"]}
+- {id: p10, type: paraphrase, question: "Do I have to change my password every 90 days?", doc: passwords, section: Reuse and rotation, answer_contains: ["compromise"]}
+- {id: p11, type: paraphrase, question: "I left my laptop on the train, how quickly do I need to tell someone?", doc: device-security, section: Lost devices, answer_contains: ["1 hour"]}
+- {id: p12, type: paraphrase, question: "Can I email a customer's credit card number to finance?", doc: data-classification, section: Restricted data, answer_contains: ["never"]}
+- {id: p13, type: paraphrase, question: "I clicked a dodgy link in an email, what is the deadline to tell security?", doc: incident-reporting, section: When to report, answer_contains: ["1 hour"]}
+- {id: p14, type: paraphrase, question: "Can I use my own personal licence for a design app at work?", doc: software-requests, section: Licences, answer_contains: ["must not"]}
+- {id: p15, type: paraphrase, question: "How fast will someone get back to me after I raise a complaint?", doc: complaints, section: Timeframes, answer_contains: ["2 business days"]}
+- {id: p16, type: paraphrase, question: "Who can a student go to if they are unhappy with how their complaint was handled?", doc: complaints, section: Escalation, answer_contains: ["ombudsman"]}
+- {id: p17, type: paraphrase, question: "Am I allowed to use ChatGPT for my assignment?", doc: academic-integrity, section: Generative AI, answer_contains: ["instructions"]}
+- {id: p18, type: paraphrase, question: "What happens the first time a student is caught plagiarising?", doc: academic-integrity, section: Breaches, answer_contains: ["warning"]}
+- {id: p19, type: paraphrase, question: "How early should a student with a disability sign up for support before their first exam?", doc: accessibility, section: Timing, answer_contains: ["4 weeks"]}
+- {id: p20, type: paraphrase, question: "How long will it take to hear back if I ask what personal data you hold about me?", doc: privacy, section: Access requests, answer_contains: ["30 days"]}
+
+- {id: u01, type: unanswerable, question: "What is the office dress code?"}
+- {id: u02, type: unanswerable, question: "Do staff get free parking?"}
+- {id: u03, type: unanswerable, question: "Can I bring my dog to the office?"}
+- {id: u04, type: unanswerable, question: "What are the rules for company cars?"}
+- {id: u05, type: unanswerable, question: "Is there a gym membership discount for staff?"}
+- {id: u06, type: unanswerable, question: "How do employee share options vest?"}
+- {id: u07, type: unanswerable, question: "When is the end of year party?"}
+- {id: u08, type: unanswerable, question: "Do students get free textbooks?"}
+- {id: u09, type: unanswerable, question: "What is the overtime pay rate for weekend shifts?"}
+- {id: u10, type: unanswerable, question: "Is there a referral bonus for recommending a friend to enrol?"}
+
+- {id: s01, type: superseded, question: "How many days after enrolling can a student get a full refund?", doc: refunds, section: Refund window, answer_contains: ["14 days"], wrong: ["7 days"]}
+- {id: s02, type: superseded, question: "How long does it take for an approved refund to be paid?", doc: refunds, section: Processing time, answer_contains: ["10 business days"], wrong: ["15 business days"]}
+- {id: s03, type: superseded, question: "How many days of annual leave do full-time staff get?", doc: annual-leave, section: Entitlement, answer_contains: ["22 days"], wrong: ["20 days"]}
+- {id: s04, type: superseded, question: "How much notice do I need to give for annual leave?", doc: annual-leave, section: Requests, answer_contains: ["10 business days"], wrong: ["2 weeks"]}
+- {id: s05, type: superseded, question: "Can I carry over unused annual leave?", doc: annual-leave, section: Carry over, answer_contains: ["5 days"], wrong: ["cannot be carried"]}
+- {id: s06, type: superseded, question: "What is the deadline for submitting an expense claim?", doc: expenses, section: Deadline, answer_contains: ["30 days"], wrong: ["60 days"]}
+- {id: s07, type: superseded, question: "What is the daily cap on meal expenses?", doc: expenses, section: Meals, answer_contains: ["$60"], wrong: ["$40"]}
+- {id: s08, type: superseded, question: "Above what amount does an expense claim need approval?", doc: expenses, section: Approval, answer_contains: ["$500"], wrong: ["$300"]}
+- {id: s09, type: superseded, question: "What discount can a sales agent offer without approval?", doc: discount-approval, section: Agent limit, answer_contains: ["15 percent"], wrong: ["10 percent"]}
+- {id: s10, type: superseded, question: "What is the largest discount allowed with approval?", doc: discount-approval, section: Higher discounts, answer_contains: ["25 percent"], wrong: ["20 percent"]}
