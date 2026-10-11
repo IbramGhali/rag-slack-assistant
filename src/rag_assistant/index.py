@@ -211,6 +211,7 @@ class PgVectorIndex:
                 (self.ns, ids),
             ).fetchall()
         )
+
         def as_array(value: Any) -> Vector:
             # pgvector returns numpy arrays or its own Vector type depending on version.
             raw = value.to_numpy() if hasattr(value, "to_numpy") else value
